@@ -1,18 +1,19 @@
 package es.baltajmn.pokeapi.app
 
-import es.baltajmn.pokeapi.app.network.RxSingleSchedulers
-import es.baltajmn.pokeapi.app.network.createBasicAuthService
-import es.baltajmn.pokeapi.presentation.main.MainViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import es.baltajmn.pokeapi.lib.pokekotlin.client.PokeApiClient
+import javax.inject.Singleton
 
-val networkModule = module {
-    single { createBasicAuthService() }
-    single { RxSingleSchedulers.DEFAULT }
-}
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
 
-val viewModelModule = module {
-    viewModel {
-        MainViewModel()
+    @Singleton
+    @Provides
+    fun providePokeApiClient(): PokeApiClient {
+        return PokeApiClient()
     }
 }
